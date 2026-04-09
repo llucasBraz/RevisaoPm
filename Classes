@@ -1,0 +1,207 @@
+Classe Motorista
+Java
+public class Motorista {
+    private String nome;
+    private String cpf;
+    private String cnh;
+    private String telefone;
+    private Veiculo veiculo;
+
+    public Motorista(String nome, String cpf, String cnh, String telefone) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.cnh = cnh;
+        this.telefone = telefone;
+    }
+
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+}
+🚙 Classe Veiculo
+Java
+import java.util.ArrayList;
+
+public class Veiculo {
+    private String placa;
+    private String modelo;
+    private int ano;
+    private double capacidade;
+    private String tipo;
+
+    private Motorista motorista;
+    private ArrayList<Entrega> entregas;
+
+    public Veiculo(String placa, String modelo, int ano, double capacidade, String tipo) {
+        this.placa = placa;
+        this.modelo = modelo;
+        this.ano = ano;
+        this.capacidade = capacidade;
+        this.tipo = tipo;
+        this.entregas = new ArrayList<>();
+    }
+
+    public void setMotorista(Motorista motorista) {
+        this.motorista = motorista;
+    }
+
+    public void adicionarEntrega(Entrega e) {
+        entregas.add(e);
+    }
+
+    public ArrayList<Entrega> getEntregas() {
+        return entregas;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+}
+📦 Classe Entrega
+Java
+public class Entrega {
+    private int codigo;
+    private String destinatario;
+    private String endereco;
+    private String data;
+    private String status;
+    private double peso;
+
+    private Veiculo veiculo;
+    private Rota rota;
+
+    public Entrega(int codigo, String destinatario, String endereco,
+                   String data, String status, double peso, Rota rota) {
+        this.codigo = codigo;
+        this.destinatario = destinatario;
+        this.endereco = endereco;
+        this.data = data;
+        this.status = status;
+        this.peso = peso;
+        this.rota = rota;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    public String toString() {
+        return "Entrega " + codigo + " - " + status;
+    }
+}
+🗺️ Classe Rota
+Java
+public class Rota {
+    private String origem;
+    private String destino;
+    private double distancia;
+    private double tempo;
+
+    public Rota(String origem, String destino, double distancia, double tempo) {
+        this.origem = origem;
+        this.destino = destino;
+        this.distancia = distancia;
+        this.tempo = tempo;
+    }
+}
+⚙️ Classe Sistema (onde resolve a prova)
+Java
+import java.util.ArrayList;
+
+public class Sistema {
+    private ArrayList<Veiculo> veiculos = new ArrayList<>();
+    private ArrayList<Motorista> motoristas = new ArrayList<>();
+    private ArrayList<Entrega> entregas = new ArrayList<>();
+
+    // 1. Associar motorista a veículo
+    public void associar(Motorista m, Veiculo v) {
+        m.setVeiculo(v);
+        v.setMotorista(m);
+    }
+
+    // 2. Atribuir entrega a veículo
+    public void atribuirEntrega(Entrega e, Veiculo v) {
+        if (!e.getStatus().equals("pendente")) {
+            v.adicionarEntrega(e);
+            e.setVeiculo(v);
+        }
+    }
+
+    // 3. Listar entregas de um veículo
+    public void listarEntregas(Veiculo v) {
+        int total = 0;
+        for (Entrega e : v.getEntregas()) {
+            System.out.println(e);
+            total++;
+        }
+        System.out.println("Total: " + total);
+    }
+
+    // 4. Total finalizadas por veículo
+    public void totalFinalizadas(Veiculo v) {
+        int total = 0;
+        for (Entrega e : v.getEntregas()) {
+            if (e.getStatus().equals("finalizada")) {
+                total++;
+            }
+        }
+        System.out.println("Finalizadas: " + total);
+    }
+
+    // 5. Buscar por status
+    public void buscarPorStatus(String status) {
+        for (Entrega e : entregas) {
+            if (e.getStatus().equals(status)) {
+                System.out.println(e);
+            }
+        }
+    }
+}
+🚀 Classe Main (IMPORTANTE – pedido na prova)
+Java
+public class Main {
+    public static void main(String[] args) {
+
+        Sistema sistema = new Sistema();
+
+        // Criando 3 veículos
+        Veiculo v1 = new Veiculo("AAA-1111", "Caminhão", 2015, 1000, "Carga");
+        Veiculo v2 = new Veiculo("BBB-2222", "Van", 2018, 500, "Entrega");
+        Veiculo v3 = new Veiculo("CCC-3333", "Moto", 2020, 100, "Rápida");
+
+        // Criando 3 motoristas
+        Motorista m1 = new Motorista("João", "111", "B", "9999");
+        Motorista m2 = new Motorista("Maria", "222", "B", "8888");
+        Motorista m3 = new Motorista("Pedro", "333", "A", "7777");
+
+        // Associando
+        sistema.associar(m1, v1);
+        sistema.associar(m2, v2);
+        sistema.associar(m3, v3);
+
+        // Criando rota
+        Rota r = new Rota("BH", "SP", 500, 6);
+
+        // Criando entregas
+        Entrega e1 = new Entrega(1, "Cliente A", "Rua 1", "10/04", "finalizada", 50, r);
+        Entrega e2 = new Entrega(2, "Cliente B", "Rua 2", "11/04", "atribuida", 30, r);
+
+        sistema.atribuirEntrega(e1, v1);
+        sistema.atribuirEntrega(e2, v1);
+
+        sistema.listarEntregas(v1);
+        sistema.totalFinalizadas(v1);
+    }
+}

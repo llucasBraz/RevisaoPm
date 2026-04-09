@@ -1,109 +1,137 @@
-🚀 Resumo Completo de Java (POO + Sintaxe)
+🚀 Guia Completo de Java (Sintaxe + POO + ArrayList)
 
-«📚 Guia rápido e direto para provas e estudos de Java»
+«📚 Feito para provas — simples, direto e com MUITOS exemplos»
 
 ---
 
-🧠 Estrutura Básica
+🧠 1. Estrutura Básica
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Olá mundo");
+        System.out.println("Olá mundo!");
     }
 }
 
 ---
 
-🔢 Tipos de Variáveis
+🔢 2. Variáveis (Tipos)
 
-int idade = 18;
-double altura = 1.75;
-char letra = 'A';
-boolean ativo = true;
+int idade = 20;
+double altura = 1.80;
 String nome = "Lucas";
-
-Tipo| Exemplo
-int| 10
-double| 1.75
-String| "Texto"
-boolean| true/false
+boolean ativo = true;
+char letra = 'A';
 
 ---
 
-🔁 Condições
-
-If / Else
+🔁 3. Condições
 
 if (idade >= 18) {
     System.out.println("Maior de idade");
 } else {
-    System.out.println("Menor de idade");
+    System.out.println("Menor");
 }
 
-Switch
-
-switch (op) {
-    case 1:
-        System.out.println("Opção 1");
+switch (idade) {
+    case 18:
+        System.out.println("Tem 18");
         break;
-    case 2:
-        System.out.println("Opção 2");
-        break;
+    default:
+        System.out.println("Outra idade");
 }
 
 ---
 
-🔄 Laços de Repetição
+🔄 4. Repetição
 
-For
-
-for (int i = 0; i < 5; i++) {
+for (int i = 0; i < 3; i++) {
     System.out.println(i);
 }
 
-While
-
 int i = 0;
-while (i < 5) {
+while (i < 3) {
     i++;
-}
-
-For-each
-
-for (String nome : lista) {
-    System.out.println(nome);
 }
 
 ---
 
-📦 Arrays
+📦 5. Arrays
 
 int[] numeros = {1, 2, 3};
+
 System.out.println(numeros[0]);
 
 ---
 
-📚 ArrayList ⭐
+📚 6. ArrayList (MUUUITO IMPORTANTE)
+
+Criando
 
 import java.util.ArrayList;
 
 ArrayList<String> nomes = new ArrayList<>();
 
+Adicionando
+
 nomes.add("Lucas");
 nomes.add("Ana");
 
+Acessando
+
 System.out.println(nomes.get(0));
+
+Removendo
 
 nomes.remove("Ana");
 
-Método| Função
-add()| Adicionar
-get()| Buscar
-remove()| Remover
+Tamanho
+
+System.out.println(nomes.size());
+
+Loop
+
+for (String n : nomes) {
+    System.out.println(n);
+}
 
 ---
 
-🧱 Classes (POO)
+🔥 Exemplos Práticos com ArrayList
+
+Lista de números
+
+ArrayList<Integer> numeros = new ArrayList<>();
+
+numeros.add(10);
+numeros.add(20);
+
+for (int n : numeros) {
+    System.out.println(n);
+}
+
+---
+
+Buscar valor
+
+if (nomes.contains("Lucas")) {
+    System.out.println("Achou!");
+}
+
+---
+
+Remover por índice
+
+nomes.remove(0);
+
+---
+
+Limpar lista
+
+nomes.clear();
+
+---
+
+🧱 7. Classes (POO)
 
 public class Pessoa {
     String nome;
@@ -112,7 +140,7 @@ public class Pessoa {
 
 ---
 
-🏗️ Construtor
+🏗️ 8. Construtor
 
 public class Pessoa {
     String nome;
@@ -124,7 +152,7 @@ public class Pessoa {
 
 ---
 
-🔒 Encapsulamento ⭐
+🔒 9. Encapsulamento
 
 private String nome;
 
@@ -138,7 +166,93 @@ public void setNome(String nome) {
 
 ---
 
-🔗 Associação entre Classes
+🔗 10. Classe com ArrayList dentro (CAI MUITO NA PROVA)
+
+import java.util.ArrayList;
+
+public class Turma {
+    private ArrayList<String> alunos = new ArrayList<>();
+
+    public void adicionarAluno(String nome) {
+        alunos.add(nome);
+    }
+
+    public void listar() {
+        for (String a : alunos) {
+            System.out.println(a);
+        }
+    }
+}
+
+---
+
+🔥 11. Classe com Objetos dentro (IMPORTANTE)
+
+import java.util.ArrayList;
+
+public class Escola {
+    private ArrayList<Pessoa> pessoas = new ArrayList<>();
+
+    public void adicionarPessoa(Pessoa p) {
+        pessoas.add(p);
+    }
+}
+
+---
+
+🧩 12. Métodos (VÁRIOS EXEMPLOS)
+
+Método simples
+
+public void falar() {
+    System.out.println("Oi");
+}
+
+Método com retorno
+
+public int somar(int a, int b) {
+    return a + b;
+}
+
+Método com condição
+
+public boolean maiorIdade(int idade) {
+    return idade >= 18;
+}
+
+---
+
+🔥 Métodos com ArrayList
+
+Somar valores
+
+public int somarLista(ArrayList<Integer> lista) {
+    int total = 0;
+    for (int n : lista) {
+        total += n;
+    }
+    return total;
+}
+
+---
+
+Buscar elemento
+
+public boolean existe(ArrayList<String> lista, String nome) {
+    return lista.contains(nome);
+}
+
+---
+
+Contar elementos
+
+public int contar(ArrayList<String> lista) {
+    return lista.size();
+}
+
+---
+
+🔗 13. Associação entre Classes
 
 class Carro {
     Motorista motorista;
@@ -146,28 +260,35 @@ class Carro {
 
 ---
 
-🧩 Métodos
+🔥 Exemplo completo (CAI MUITO)
 
-public void falar() {
-    System.out.println("Oi");
+public class Aluno {
+    String nome;
+
+    public Aluno(String nome) {
+        this.nome = nome;
+    }
 }
 
-public int somar(int a, int b) {
-    return a + b;
+import java.util.ArrayList;
+
+public class Curso {
+    ArrayList<Aluno> alunos = new ArrayList<>();
+
+    public void adicionar(Aluno a) {
+        alunos.add(a);
+    }
+
+    public void listar() {
+        for (Aluno a : alunos) {
+            System.out.println(a.nome);
+        }
+    }
 }
 
 ---
 
-🧮 Operadores
-
-Tipo| Operadores
-Matemáticos| + - * /
-Comparação| == != > <
-Lógicos| &&
-
----
-
-📥 Entrada de Dados
+📥 14. Scanner
 
 import java.util.Scanner;
 
@@ -178,39 +299,51 @@ String nome = sc.nextLine();
 
 ---
 
-🧾 toString()
+🧾 15. toString()
 
 public String toString() {
-    return nome + " - " + idade;
+    return nome;
 }
 
 ---
 
-🧠 Regras de Ouro (PROVA)
+🧮 16. Operadores
 
-✔ Use "private" nos atributos
-✔ Use "ArrayList" ao invés de vetor
-✔ Separe classes corretamente
-✔ Use "this" no construtor
-✔ Evite lógica na "main"
++ - * /
+== != > <
+&& ||
 
 ---
 
-⚡ Resumo Final
+🧠 17. DICAS QUE GARANTEM PONTO
 
-Conceito| Uso
-Classe| "class"
-Objeto| "new"
-Lista| "ArrayList"
-Decisão| "if / switch"
-Loop| "for / while"
-Método| Função
-Encapsulamento| get/set
+✔ Sempre usar "private"
+✔ Sempre usar "ArrayList"
+✔ Criar métodos para tudo
+✔ Evitar lógica na "main"
+✔ Usar objetos (new) corretamente
 
 ---
 
-🏁 Dica Final
+⚡ RESUMÃO FINAL
 
-«💡 Se fizer isso aqui bem feito, você já garante a maior parte da prova!»
+- Classe → "class"
+- Objeto → "new"
+- Lista → "ArrayList"
+- Método → função
+- Loop → "for"
+- Decisão → "if"
 
 ---
+
+🏁 Dica final
+
+«💡 Se você souber:
+
+- Criar classe
+- Usar ArrayList
+- Fazer métodos
+
+👉 Você já passa na prova!»
+
+--- 

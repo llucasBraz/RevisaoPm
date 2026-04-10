@@ -1,349 +1,252 @@
-🚀 Guia Completo de Java (Sintaxe + POO + ArrayList)
+Java
+public class Motorista {
+    private String nome;
+    private String cpf;
+    private String cnh;
+    private String telefone;
+    private Veiculo veiculo;
 
-«📚 Feito para provas — simples, direto e com MUITOS exemplos»
+    public Motorista(String nome, String cpf, String cnh, String telefone) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.cnh = cnh;
+        this.telefone = telefone;
+    }
 
----
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
 
-🧠 1. Estrutura Básica
+    public String getNome() {
+        return nome;
+    }
+
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+}
+🚙 Veiculo.java
+Java
+import java.util.ArrayList;
+
+public class Veiculo {
+    private String placa;
+    private String modelo;
+    private int ano;
+    private double capacidade;
+    private String tipo;
+
+    private Motorista motorista;
+    private ArrayList<Entrega> entregas;
+
+    public Veiculo(String placa, String modelo, int ano, double capacidade, String tipo) {
+        this.placa = placa;
+        this.modelo = modelo;
+        this.ano = ano;
+        this.capacidade = capacidade;
+        this.tipo = tipo;
+        this.entregas = new ArrayList<>();
+    }
+
+    public void setMotorista(Motorista motorista) {
+        this.motorista = motorista;
+    }
+
+    public Motorista getMotorista() {
+        return motorista;
+    }
+
+    public void adicionarEntrega(Entrega e) {
+        entregas.add(e);
+    }
+
+    public ArrayList<Entrega> getEntregas() {
+        return entregas;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+}
+📦 Entrega.java
+Java
+public class Entrega {
+    private int codigo;
+    private String destinatario;
+    private String endereco;
+    private String data;
+    private String status;
+    private double peso;
+
+    private Veiculo veiculo;
+    private Rota rota;
+
+    public Entrega(int codigo, String destinatario, String endereco,
+                   String data, String status, double peso, Rota rota) {
+        this.codigo = codigo;
+        this.destinatario = destinatario;
+        this.endereco = endereco;
+        this.data = data;
+        this.status = status;
+        this.peso = peso;
+        this.rota = rota;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    public String toString() {
+        return "Entrega " + codigo + " | Cliente: " + destinatario + " | Status: " + status;
+    }
+}
+🗺️ Rota.java
+Java
+public class Rota {
+    private String origem;
+    private String destino;
+    private double distancia;
+    private double tempo;
+
+    public Rota(String origem, String destino, double distancia, double tempo) {
+        this.origem = origem;
+        this.destino = destino;
+        this.distancia = distancia;
+        this.tempo = tempo;
+    }
+}
+⚙️ Sistema.java
+Java
+import java.util.ArrayList;
+
+public class Sistema {
+
+    public ArrayList<Veiculo> veiculos = new ArrayList<>();
+    private ArrayList<Motorista> motoristas = new ArrayList<>();
+    private ArrayList<Entrega> entregas = new ArrayList<>();
+
+    public void adicionarVeiculo(Veiculo v) {
+        veiculos.add(v);
+    }
+
+    public void adicionarMotorista(Motorista m) {
+        motoristas.add(m);
+    }
+
+    public void adicionarEntrega(Entrega e) {
+        entregas.add(e);
+    }
+
+    public void associar(Motorista m, Veiculo v) {
+        m.setVeiculo(v);
+        v.setMotorista(m);
+    }
+
+    public void atribuirEntrega(Entrega e, Veiculo v) {
+        v.adicionarEntrega(e);
+        e.setVeiculo(v);
+    }
+
+    // 🔥 RELATÓRIO FINAL
+    public void gerarRelatorio() {
+
+        int pendentes = 0;
+        int finalizadas = 0;
+
+        System.out.println("\n===== RELATÓRIO FINAL =====");
+
+        for (Veiculo v : veiculos) {
+
+            System.out.println("\nVeículo: " + v.getPlaca());
+
+            if (v.getMotorista() != null) {
+                System.out.println("Motorista: " + v.getMotorista().getNome());
+            }
+
+            for (Entrega e : v.getEntregas()) {
+                System.out.println(e);
+
+                if (e.getStatus().equals("pendente")) {
+                    pendentes++;
+                } else if (e.getStatus().equals("finalizada")) {
+                    finalizadas++;
+                }
+            }
+        }
+
+        System.out.println("\nTotal pendentes: " + pendentes);
+        System.out.println("Total finalizadas: " + finalizadas);
+    }
+}
+🚀 Main.java
+Java
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Olá mundo!");
-    }
-}
 
----
+        Scanner sc = new Scanner(System.in);
+        Sistema sistema = new Sistema();
 
-🔢 2. Variáveis (Tipos)
+        // 🚗 VEÍCULOS + MOTORISTAS
+        System.out.print("Quantos veículos? ");
+        int qtdVeiculos = sc.nextInt();
+        sc.nextLine();
 
-int idade = 20;
-double altura = 1.80;
-String nome = "Lucas";
-boolean ativo = true;
-char letra = 'A';
+        for (int i = 0; i < qtdVeiculos; i++) {
 
----
+            System.out.println("\nVeículo " + (i + 1));
 
-🔁 3. Condições
+            System.out.print("Placa: ");
+            String placa = sc.nextLine();
 
-if (idade >= 18) {
-    System.out.println("Maior de idade");
-} else {
-    System.out.println("Menor");
-}
+            System.out.print("Modelo: ");
+            String modelo = sc.nextLine();
 
-switch (idade) {
-    case 18:
-        System.out.println("Tem 18");
-        break;
-    default:
-        System.out.println("Outra idade");
-}
+            Veiculo v = new Veiculo(placa, modelo, 2020, 1000, "Carga");
 
----
+            System.out.print("Nome do motorista: ");
+            String nome = sc.nextLine();
 
-🔄 4. Repetição
+            Motorista m = new Motorista(nome, "000", "B", "999");
 
-for (int i = 0; i < 3; i++) {
-    System.out.println(i);
-}
-
-int i = 0;
-while (i < 3) {
-    i++;
-}
-
----
-
-📦 5. Arrays
-
-int[] numeros = {1, 2, 3};
-
-System.out.println(numeros[0]);
-
----
-
-📚 6. ArrayList (MUUUITO IMPORTANTE)
-
-Criando
-
-import java.util.ArrayList;
-
-ArrayList<String> nomes = new ArrayList<>();
-
-Adicionando
-
-nomes.add("Lucas");
-nomes.add("Ana");
-
-Acessando
-
-System.out.println(nomes.get(0));
-
-Removendo
-
-nomes.remove("Ana");
-
-Tamanho
-
-System.out.println(nomes.size());
-
-Loop
-
-for (String n : nomes) {
-    System.out.println(n);
-}
-
----
-
-🔥 Exemplos Práticos com ArrayList
-
-Lista de números
-
-ArrayList<Integer> numeros = new ArrayList<>();
-
-numeros.add(10);
-numeros.add(20);
-
-for (int n : numeros) {
-    System.out.println(n);
-}
-
----
-
-Buscar valor
-
-if (nomes.contains("Lucas")) {
-    System.out.println("Achou!");
-}
-
----
-
-Remover por índice
-
-nomes.remove(0);
-
----
-
-Limpar lista
-
-nomes.clear();
-
----
-
-🧱 7. Classes (POO)
-
-public class Pessoa {
-    String nome;
-    int idade;
-}
-
----
-
-🏗️ 8. Construtor
-
-public class Pessoa {
-    String nome;
-
-    public Pessoa(String nome) {
-        this.nome = nome;
-    }
-}
-
----
-
-🔒 9. Encapsulamento
-
-private String nome;
-
-public String getNome() {
-    return nome;
-}
-
-public void setNome(String nome) {
-    this.nome = nome;
-}
-
----
-
-🔗 10. Classe com ArrayList dentro (CAI MUITO NA PROVA)
-
-import java.util.ArrayList;
-
-public class Turma {
-    private ArrayList<String> alunos = new ArrayList<>();
-
-    public void adicionarAluno(String nome) {
-        alunos.add(nome);
-    }
-
-    public void listar() {
-        for (String a : alunos) {
-            System.out.println(a);
+            sistema.adicionarVeiculo(v);
+            sistema.adicionarMotorista(m);
+            sistema.associar(m, v);
         }
-    }
-}
 
----
+        // 📦 ENTREGAS
+        System.out.print("\nQuantas entregas? ");
+        int qtdEntregas = sc.nextInt();
+        sc.nextLine();
 
-🔥 11. Classe com Objetos dentro (IMPORTANTE)
+        for (int i = 0; i < qtdEntregas; i++) {
 
-import java.util.ArrayList;
+            System.out.println("\nEntrega " + (i + 1));
 
-public class Escola {
-    private ArrayList<Pessoa> pessoas = new ArrayList<>();
+            System.out.print("Destinatário: ");
+            String dest = sc.nextLine();
 
-    public void adicionarPessoa(Pessoa p) {
-        pessoas.add(p);
-    }
-}
+            System.out.print("Status (pendente/finalizada): ");
+            String status = sc.nextLine();
 
----
+            Rota r = new Rota("A", "B", 10, 1);
 
-🧩 12. Métodos (VÁRIOS EXEMPLOS)
+            Entrega e = new Entrega(i + 1, dest, "Rua X", "Hoje", status, 10, r);
 
-Método simples
+            sistema.adicionarEntrega(e);
 
-public void falar() {
-    System.out.println("Oi");
-}
-
-Método com retorno
-
-public int somar(int a, int b) {
-    return a + b;
-}
-
-Método com condição
-
-public boolean maiorIdade(int idade) {
-    return idade >= 18;
-}
-
----
-
-🔥 Métodos com ArrayList
-
-Somar valores
-
-public int somarLista(ArrayList<Integer> lista) {
-    int total = 0;
-    for (int n : lista) {
-        total += n;
-    }
-    return total;
-}
-
----
-
-Buscar elemento
-
-public boolean existe(ArrayList<String> lista, String nome) {
-    return lista.contains(nome);
-}
-
----
-
-Contar elementos
-
-public int contar(ArrayList<String> lista) {
-    return lista.size();
-}
-
----
-
-🔗 13. Associação entre Classes
-
-class Carro {
-    Motorista motorista;
-}
-
----
-
-🔥 Exemplo completo (CAI MUITO)
-
-public class Aluno {
-    String nome;
-
-    public Aluno(String nome) {
-        this.nome = nome;
-    }
-}
-
-import java.util.ArrayList;
-
-public class Curso {
-    ArrayList<Aluno> alunos = new ArrayList<>();
-
-    public void adicionar(Aluno a) {
-        alunos.add(a);
-    }
-
-    public void listar() {
-        for (Aluno a : alunos) {
-            System.out.println(a.nome);
+            // 🔥 associa sempre ao primeiro veículo (simples pra prova)
+            sistema.atribuirEntrega(e, sistema.veiculos.get(0));
         }
+
+        // 📊 RELATÓRIO FINAL
+        sistema.gerarRelatorio();
+
+        sc.close();
     }
 }
-
----
-
-📥 14. Scanner
-
-import java.util.Scanner;
-
-Scanner sc = new Scanner(System.in);
-
-int idade = sc.nextInt();
-String nome = sc.nextLine();
-
----
-
-🧾 15. toString()
-
-public String toString() {
-    return nome;
-}
-
----
-
-🧮 16. Operadores
-
-+ - * /
-== != > <
-&& ||
-
----
-
-🧠 17. DICAS QUE GARANTEM PONTO
-
-✔ Sempre usar "private"
-✔ Sempre usar "ArrayList"
-✔ Criar métodos para tudo
-✔ Evitar lógica na "main"
-✔ Usar objetos (new) corretamente
-
----
-
-⚡ RESUMÃO FINAL
-
-- Classe → "class"
-- Objeto → "new"
-- Lista → "ArrayList"
-- Método → função
-- Loop → "for"
-- Decisão → "if"
-
----
-
-🏁 Dica final
-
-«💡 Se você souber:
-
-- Criar classe
-- Usar ArrayList
-- Fazer métodos
-
-👉 Você já passa na prova!»
-
---- 
